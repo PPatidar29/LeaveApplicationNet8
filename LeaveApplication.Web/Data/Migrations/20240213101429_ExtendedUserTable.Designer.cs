@@ -4,6 +4,7 @@ using LeaveApplication.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LeaveApplication.Web.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240213101429_ExtendedUserTable")]
+    partial class ExtendedUserTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,62 +103,6 @@ namespace LeaveApplication.Web.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("LeaveApplication.Web.Data.LeaveAllocation", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("LeaveTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NumberOfDays")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("LeaveTypeId");
-
-                    b.ToTable("LeaveAllocations");
-                });
-
-            modelBuilder.Entity("LeaveApplication.Web.Data.LeaveType", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("DefaultDays")
-                        .HasColumnType("int");
-
-                    b.Property<string>("name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.ToTable("LeaveTypes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -293,17 +240,6 @@ namespace LeaveApplication.Web.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("LeaveApplication.Web.Data.LeaveAllocation", b =>
-                {
-                    b.HasOne("LeaveApplication.Web.Data.LeaveType", "LeaveType")
-                        .WithMany()
-                        .HasForeignKey("LeaveTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("LeaveType");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
